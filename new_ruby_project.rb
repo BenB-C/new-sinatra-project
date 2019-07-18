@@ -10,7 +10,7 @@ end
 print 'Project name: '
 project_name = gets.chomp.gsub(' ', '_')
 print 'Classes: '
-class_names = gets.chomp.split(/ |, /)
+class_names = gets.chomp.split(/ |,|, /)
 print 'Gems (rspec, pry & pivotal_git_scripts included by default): '
 gems = gets.chomp.split(/ |, /) + ['rspec', 'pry', 'pivotal_git_scripts']
 
@@ -19,21 +19,29 @@ FileUtils.cd "../"
 FileUtils.mkdir [project_name, project_name + "/lib", project_name + "/spec"]
 FileUtils.cd project_name
 # create script file
-script_filename = "#{project_name}_script.rb"
-FileUtils.touch script_filename
-File.write(script_filename, "#!/usr/bin/env ruby\n\n")
+script_filepath = "#{project_name}_script.rb"
+FileUtils.touch script_filepath
+File.write(script_filepath, "#!/usr/bin/env ruby\n\n")
 class_names.each do |class_name|
   # create lib file
-  lib_filename = "lib/#{to_underscore(class_name)}.rb"
-  FileUtils.touch lib_filename
-  File.write(lib_filename, "class #{class_name}\nend")
+  lib_filename = "#{to_underscore(class_name)}.rb"
+  lib_filepath = "lib/" + lib_filename
+  FileUtils.touch "lib/#{lib_filename}"
+  File.write(lib_filepath, "class #{class_name}\nend")
   # create spec file
-  spec_filename = "spec/#{to_underscore(class_name)}_spec.rb"
-  FileUtils.touch spec_filename
-  File.write(spec_filename, "require '#{lib_filename.sub('.rb','')}'\n\n")
-  File.write(spec_filename, "describe('#{class_name}') do\nend", mode: "a")
+  spec_filepath = "spec/#{to_underscore(class_name)}_spec.rb"
+  FileUtils.touch spec_filepath
+  File.write(spec_filepath, "require 'rspec'\nrequire 'pry'\n")
+  File.write(spec_filepath, "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
+  File.write(spec_filepath, %Q(
+describe('#{class_name}') do
+  it('') do
+    expect().to(eq())
+  end
+end
+  ), mode: "a")
   # add require for class to script file
-  File.write(script_filename, "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
+  File.write(script_filepath, "require './lib/#{lib_filename.sub('.rb','')}'\n", mode: "a")
 end
 # create Gemfile
 FileUtils.touch 'Gemfile'
