@@ -31,7 +31,7 @@ class_names.each do |class_name|
   spec_filename = "spec/#{to_underscore(class_name)}_spec.rb"
   FileUtils.touch spec_filename
   File.write(spec_filename, "require '#{lib_filename.sub('.rb','')}'\n\n")
-  File.write(spec_filename, "describe('#{class_name}') do\nend")
+  File.write(spec_filename, "describe('#{class_name}') do\nend", mode: "a")
   # add require for class to script file
   File.write(script_filename, "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
 end
