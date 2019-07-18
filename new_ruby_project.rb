@@ -39,6 +39,6 @@ end
 FileUtils.touch 'Gemfile'
 gem_file_text = "source 'https://rubygems.org'\n\n"
 gems.each do |gem|
-  gem_file_text += "gem #{gem}\n"
+  gem_file_text += "gem '#{gem}'\n"
 end
 File.write('Gemfile', gem_file_text)
