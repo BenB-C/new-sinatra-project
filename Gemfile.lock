@@ -1,0 +1,15 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    fileutils (1.0.2)
+    pivotal_git_scripts (1.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  fileutils
+  pivotal_git_scripts
+
+BUNDLED WITH
+   1.16.1
