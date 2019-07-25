@@ -8,22 +8,23 @@ def to_underscore(string)
 end
 
 print 'Enter project name: '
-project_name = gets.chomp.gsub(' ', '-')
+project_name = gets.chomp
+project_path = project_name.gsub(' ', '-')
 print 'Enter classes: '
 class_names = gets.chomp.split(/ |,|, /)
 
 # create project folder and subfolders in parent of current directory
 FileUtils.cd "../"
 FileUtils.mkdir [
-  project_name,
-  "#{project_name}/lib",
-  "#{project_name}/public",
-  "#{project_name}/public/css",
-  "#{project_name}/public/images",
-  "#{project_name}/spec",
-  "#{project_name}/views"
+  project_path,
+  "#{project_path}/lib",
+  "#{project_path}/public",
+  "#{project_path}/public/css",
+  "#{project_path}/public/images",
+  "#{project_path}/spec",
+  "#{project_path}/views"
 ]
-FileUtils.cd project_name
+FileUtils.cd project_path
 # create stylesheet
 FileUtils.touch "public/css/styles.css"
 # create layout view
@@ -31,7 +32,7 @@ FileUtils.touch "views/layout.erb"
 File.write("views/layout.erb", %{<!DOCTYPE html>
 <html>
   <head>
-    <title>All Sales Vinyl</title>
+    <title>#{project_name}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
   </head>
@@ -96,6 +97,6 @@ get ('/') do
 end
 }, mode: "a")
 # run bundle install and git init
-system "cd ../#{project_name}"
+system "cd ../#{project_path}"
 system "bundle install"
 system "git init"
