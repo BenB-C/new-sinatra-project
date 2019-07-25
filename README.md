@@ -1,9 +1,5 @@
 # Sinatra Project Creator
 
-#### By Ben Bennett-Cauchon
-
-## Description
-
 Creates base folders and files for a new ruby+sinatra project
 
 ## Setup/Installation Requirements
