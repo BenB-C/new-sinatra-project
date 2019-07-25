@@ -1,9 +1,5 @@
 # Sinatra Project Creator
 
-#### By Ben Bennett-Cauchon
-
-## Description
-
 Creates base folders and files for a new ruby+sinatra project
 
 ## Setup/Installation Requirements
@@ -11,16 +7,12 @@ Creates base folders and files for a new ruby+sinatra project
 * Clone the repo and navigate to its folder in a terminal
 * Enter the command<br>
 `ruby sinatra_project_creator.rb`
-* Enter the name of your new project (space will be replaced with dashes)
+* Enter the name of your new project (spaces will be replaced with dashes)
 * Enter the names of any classes you want in your project (in UpperCamelCase), separated by spaces or commas
-
-## Known Bugs
-
-There are no known bugs at this time.
 
 ## Support and contact details
 
-If you find a bug, run into any issues, or have questions, ideas or concerns please feel free to submit an issue for the project here on GitHub or email me at ben.bennett-cauchon@gmail.com.
+If you find a bug, run into any issues, or have questions, ideas or concerns please feel free to submit an issue for the project here on GitHub or email me at ben.bennettcauchon@gmail.com.
 
 ### License
 
