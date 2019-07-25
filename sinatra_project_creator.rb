@@ -84,7 +84,7 @@ describe('##{class_name}') do
 end
 })
   # add require to app file
-  File.write("app.rb", "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
+  File.write("app.rb", "require './lib/#{lib_filename.sub('.rb','')}'\n", mode: "a")
 end
 # add requires to app file
 File.write("app.rb", %{require 'sinatra'
