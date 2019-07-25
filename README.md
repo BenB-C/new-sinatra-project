@@ -11,7 +11,7 @@ Creates base folders and files for a new ruby+sinatra project
 * Clone the repo and navigate to its folder in a terminal
 * Enter the command<br>
 `ruby sinatra_project_creator.rb`
-* Enter the name of your new project (space will be replaced with dashes)
+* Enter the name of your new project (spaces will be replaced with dashes)
 * Enter the names of any classes you want in your project (in UpperCamelCase), separated by spaces or commas
 
 ## Known Bugs
