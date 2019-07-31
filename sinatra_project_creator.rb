@@ -11,7 +11,7 @@ print 'Enter project name: '
 project_name = gets.chomp
 project_path = project_name.gsub(' ', '-')
 print 'Enter classes: '
-class_names = gets.chomp.split(/ |,|, /)
+class_names = gets.chomp.split(/ |, /).select { |classname| classname != "" && classname != " " }
 
 # create project folder and subfolders in parent of current directory
 FileUtils.cd "../"
@@ -57,6 +57,7 @@ gem 'rspec'
 gem 'pry'
 gem 'pivotal_git_scripts'
 gem 'capybara'
+gem 'pg'
 })
 # create integration spec file
 FileUtils.touch "integration_spec.rb"
@@ -65,6 +66,8 @@ require './app'
 Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 })
+# create spec helper file
+FileUtils.touch "spec/spec_helper.rb"
 # create class and spec files
 class_names.each do |class_name|
   # create lib file
@@ -75,21 +78,35 @@ class_names.each do |class_name|
   # create spec file
   spec_filepath = "spec/#{to_underscore(class_name)}_spec.rb"
   FileUtils.touch spec_filepath
-  File.write(spec_filepath, %{require 'rspec'
-require 'pry'
-require '#{lib_filename.sub('.rb','')}'
+  File.write(spec_filepath, %{require 'spec_helper.rb'
 
 describe('##{class_name}') do
 
 end
 })
+  File.write("spec/spec_helper.rb", "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
   # add require to app file
   File.write("app.rb", "require './lib/#{lib_filename.sub('.rb','')}'\n", mode: "a")
 end
-# add requires to app file
+# add more requires to spec helper file
+database_name = project_name.gsub(' ','_').downcase
+File.write("spec/spec_helper.rb", %{require 'rspec'
+require 'pg'
+require 'pry'
+
+DB = PG.connect({:dbname => '#{database_name}_test'})
+
+RSpec.configure do |config|
+  config.after(:each) do
+    DB.exec("DELETE FROM albums *;")
+    DB.exec("DELETE FROM songs *;")
+  end
+end}, mode: "a")
+# add requires to app filw
 File.write("app.rb", %{require 'sinatra'
 require 'sinatra/reloader'
 require 'pry'
+require 'pg'
 also_reload 'lib/**/*.rb'
 
 get ('/') do
@@ -100,3 +117,4 @@ end
 system "cd ../#{project_path}"
 system "bundle install"
 system "git init"
+system "atom ."
