@@ -67,7 +67,8 @@ Capybara.app = Sinatra::Application
 set(:show_exceptions, false)
 })
 # create spec helper file
-FileUtils.touch "spec/spec_helper.rb"
+spec_helper_path = "spec/spec_helper.rb"
+FileUtils.touch spec_helper_path
 # create class and spec files
 class_names.each do |class_name|
   # create lib file
@@ -84,13 +85,13 @@ describe('##{class_name}') do
 
 end
 })
-  File.write("spec/spec_helper.rb", "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
+  File.write(spec_helper_path, "require '#{lib_filename.sub('.rb','')}'\n", mode: "a")
   # add require to app file
   File.write("app.rb", "require './lib/#{lib_filename.sub('.rb','')}'\n", mode: "a")
 end
 # add more requires to spec helper file
 database_name = project_name.gsub(' ','_').downcase
-File.write("spec/spec_helper.rb", %{require 'rspec'
+File.write(spec_helper_path, %{require 'rspec'
 require 'pg'
 require 'pry'
 
@@ -98,10 +99,10 @@ DB = PG.connect({:dbname => '#{database_name}_test'})
 
 RSpec.configure do |config|
   config.after(:each) do
-    DB.exec("DELETE FROM albums *;")
-    DB.exec("DELETE FROM songs *;")
+
   end
-end}, mode: "a")
+end
+}, mode: "a")
 # add requires to app filw
 File.write("app.rb", %{require 'sinatra'
 require 'sinatra/reloader'
